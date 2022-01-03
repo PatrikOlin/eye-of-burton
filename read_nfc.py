@@ -63,15 +63,12 @@ def setup():
     print("Waiting for an ISO14443A Card ...")
 
 def signIn(uid):
-    URL ="http://192.168.1.88:4040/signin/"
-    hex = bytes(uid).hex()
+    hex = int(bytes(uid).hex(), 16)
+    URL ="http://192.168.1.88:4040/signin/" + string(hex)
 
-    if (hex == "537a3a16"):
-        print("Signing in...")
-        r = requests.post(url = URL + "0")
-    elif (hex == "83639ela"):
-        print("Signing in...")
-        r = requests.post(url = URL + "1")
+    print(hex)
+    print("Signing in...")
+    r = requests.post(url = URL)
 
 def loop():
     #  Wait for an ISO14443A type cards (Mifare, etc.).  When one is found
@@ -116,7 +113,8 @@ def loop():
                 if (success):
                     #  Data seems to have been read ... spit it out
                     print("Reading Block 4: {}".format(binascii.hexlify(data)))
-                    return True
+                    time.sleep(10)
+                    return False
 
                 else:
                     print("Ooops ... unable to read the requested block.  Try another key?")
