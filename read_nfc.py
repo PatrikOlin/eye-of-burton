@@ -63,8 +63,9 @@ def setup():
     print("Waiting for an ISO14443A Card ...")
 
 def signIn(uid):
-    hex = int(bytes(uid).hex(), 16)
-    URL ="http://192.168.1.88:4040/signin/" + string(hex)
+    hex = bytes(uid).hex()
+    baseURL = "http://192.168.1.88:4040"
+    URL =f"{baseURL}/signin/{hex}?hex=true"
 
     print(hex)
     print("Signing in...")
